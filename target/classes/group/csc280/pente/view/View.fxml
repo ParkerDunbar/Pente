@@ -387,26 +387,6 @@
 	<Button text="17" GridPane.columnIndex="16" GridPane.rowIndex="18" onAction="#buttonHandler" />
 	<Button text="18" GridPane.columnIndex="17" GridPane.rowIndex="18" onAction="#buttonHandler" />
 	<Button text="19" GridPane.columnIndex="18" GridPane.rowIndex="18" onAction="#buttonHandler" />
-	<!-- ROW 19 -->
-	<Button text="1" GridPane.columnIndex="0" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="2" GridPane.columnIndex="1" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="3" GridPane.columnIndex="2" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="4" GridPane.columnIndex="3" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="5" GridPane.columnIndex="4" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="6" GridPane.columnIndex="5" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="7" GridPane.columnIndex="6" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="8" GridPane.columnIndex="7" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="9" GridPane.columnIndex="8" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="10" GridPane.columnIndex="9" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="11" GridPane.columnIndex="10" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="12" GridPane.columnIndex="11" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="13" GridPane.columnIndex="12" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="14" GridPane.columnIndex="13" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="15" GridPane.columnIndex="14" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="16" GridPane.columnIndex="15" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="17" GridPane.columnIndex="16" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="18" GridPane.columnIndex="17" GridPane.rowIndex="19" onAction="#buttonHandler" />
-	<Button text="19" GridPane.columnIndex="18" GridPane.rowIndex="19" onAction="#buttonHandler" />
 	</GridPane>
 	
 	</center>
