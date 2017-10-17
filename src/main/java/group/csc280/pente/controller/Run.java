@@ -1,10 +1,11 @@
 package group.csc280.pente.controller;
 
+import group.csc280.pente.view.Main;
+
 public class Run {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		Main.launch(Main.class);
 	}
 
 }
