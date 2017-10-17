@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Button?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="group.csc280.pente.view.Main">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="group.csc280.pente.view.MainView">
 	<center>
 	<GridPane alignment="CENTER">
 	<!-- ROW 0 -->
