@@ -7,11 +7,8 @@ import group.csc280.pente.view.MainView;
 public class Run {
 
 	public static void main(String[] args) {
-		MainView.launch(MainView.class);
-
-//		Board b = new Board();
-//		b.printBoard();
-
+		Pente game = new Pente();
+		game.run();
 	}
 
 }
