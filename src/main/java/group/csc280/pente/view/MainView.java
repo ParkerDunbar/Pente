@@ -15,7 +15,8 @@ import javafx.stage.Stage;
 
 public class MainView extends Application {
 	private Board b;
-	int times = 0;
+	int times = 1;
+	int x, y;
 
 	@FXML
 	public GridPane grid;
@@ -37,24 +38,25 @@ public class MainView extends Application {
 	public void buttonHandler(ActionEvent e) {
 		if (times % 2 == 0) {
 			Button test = (Button) e.getSource();
-//			int Y = GridPane.getColumnIndex(test);
-//			int X = GridPane.getRowIndex(test);
+			y = GridPane.getColumnIndex(test);
+			x = GridPane.getRowIndex(test);
 //			System.out.println(X + " " + Y);
-//			if (b.makeMove('B', X, Y)) {
+			if(times == 2 && b.makeMove('B', x, y, true)) {
+				
+			} else if (b.makeMove('B', x, y, false)) {
 				test.setStyle("-fx-background-color: #000");
-//				b.checkCapture('B', 'W', X, Y);
+//				b.checkCapture('B', 'W', x, y);
 //			}
 		} else {
 			Button test = (Button) e.getSource();
-//			int Y = GridPane.getColumnIndex(test);
-//			int X = GridPane.getRowIndex(test);
+			x = GridPane.getColumnIndex(test);
+			y = GridPane.getRowIndex(test);
 //			if (b.makeMove('W', X, Y)) {
 				test.setStyle("-fx-background-color: #FFF");
 //				b.checkCapture('W', 'B', X, Y);
 //			}
 		}
 		times++;
-
 	}
 
 }

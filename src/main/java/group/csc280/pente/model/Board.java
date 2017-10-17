@@ -2,35 +2,43 @@ package group.csc280.pente.model;
 
 public class Board {
 	private char[][] board;
-	
-//Initializes the board state
-	public Board() {
-		board = new char[19][19];
+	int xSize;
+	int ySize;
+
+	// Initializes the board state
+	public Board(int xSize, int ySize) {
+		this.xSize = xSize;
+		this.ySize = ySize;
+		board = new char[xSize][ySize];
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
 				board[i][j] = ' ';
 			}
 		}
-		board[9][9] = 'B';
+		board[(int) ((xSize / 2) + .5)][(int) ((ySize / 2) + .5)] = 'B';
 	}
-	
-//Returns the board's current state
-	public char[][] getBoard(){
+
+	// Returns the board's current state
+	public char[][] getBoard() {
 		return board;
 	}
-	
-	//resets the board to its initial state
+
+	public void setBoard(char[][] board) {
+		this.board = board;
+	}
+
+	// resets the board to its initial state
 	public boolean resetBoard() {
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
 				board[i][j] = ' ';
 			}
 		}
-		board[9][9] = 'B';
+		board[(int) ((xSize / 2) + .5)][(int) ((ySize / 2) + .5)] = 'B';
 		return true;
 	}
-	
-//Prints the board to the console
+
+	// Prints the board to the console
 	public boolean printBoard() {
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
@@ -40,8 +48,8 @@ public class Board {
 		}
 		return true;
 	}
-	
-//makes a move after validating the move
+
+	// makes a move after validating the move
 	public boolean makeMove(char turn, int x, int y, boolean isBlacksSecondMove) {
 		if (isValidMove(x, y, isBlacksSecondMove)) {
 			board[x][y] = turn;
@@ -49,26 +57,31 @@ public class Board {
 		}
 		return false;
 	}
-	
-//checks if the attempted move is a valid move
+
+	// checks if the attempted move is a valid move
 	public boolean isValidMove(int x, int y, boolean isBlacksSecondMove) {
-		if (board[x][y] == ' '&&!isBlacksSecondMove) {
+		if (x < 0 || x > xSize - 1 || y < 0 || y > ySize - 1) {
+			return false;
+		} else if (board[x][y] == ' ' && !isBlacksSecondMove) {
 			return true;
-		}
-		else if (isBlacksSecondMove&&board[x][y] == ' '&&(x<7||x>11)&&(y<7||y>11)) {
+		} else if (isBlacksSecondMove && board[x][y] == ' ' && ((x < 7 || x > 11) || (y < 7 || y > 11))) {
 			return true;
 		}
 		return false;
 	}
-	
-//Deletes the two pieces that need capturing
+
+	// Deletes the two pieces that need capturing
 	private void capture(Direction direction, int x, int y) {
-		board[x+direction.dx][y+direction.dy] = ' ';
-		board[x+(direction.dx*2)][y+(direction.dy*2)] = ' ';
+		board[x + direction.dx][y + direction.dy] = ' ';
+		board[x + (direction.dx * 2)][y + (direction.dy * 2)] = ' ';
 	}
 
-//Checks if the placed piece captures anything and calls capture to capture the pieces
+	// Checks if the placed piece captures anything and calls capture to capture the
+	// pieces
 	public boolean checkCapture(char turn, char notTurn, int x, int y) {
+		if (!isValidMove(x, y, false)) {
+			return false;
+		}
 		int right = 0;
 		int up = 0;
 		int left = 0;
@@ -86,7 +99,7 @@ public class Board {
 				break;
 			} else if (board[x + j][y] == turn && right == 2) {
 				right++;
-			} else if (board[x + j][y] == notTurn) {
+			} else if (board[x + j][y] == notTurn && right < 2) {
 				right++;
 			} else {
 				break;
@@ -100,7 +113,7 @@ public class Board {
 				break;
 			} else if (board[x][y + j] == turn && up == 2) {
 				up++;
-			} else if (board[x][y + j] == notTurn) {
+			} else if (board[x][y + j] == notTurn && up < 2) {
 				up++;
 			} else {
 				break;
@@ -114,7 +127,7 @@ public class Board {
 				break;
 			} else if (board[x + j][y + j] == turn && upright == 2) {
 				upright++;
-			} else if (board[x + j][y + j] == notTurn) {
+			} else if (board[x + j][y + j] == notTurn && upright < 2) {
 				upright++;
 			} else {
 				break;
@@ -128,7 +141,7 @@ public class Board {
 				break;
 			} else if (board[x - j][y + j] == turn && upleft == 2) {
 				upleft++;
-			} else if (board[x - j][y + j] == notTurn) {
+			} else if (board[x - j][y + j] == notTurn && upleft < 2) {
 				upleft++;
 			} else {
 				break;
@@ -142,7 +155,7 @@ public class Board {
 				break;
 			} else if (board[x - j][y] == turn && left == 2) {
 				left++;
-			} else if (board[x - j][y] == notTurn) {
+			} else if (board[x - j][y] == notTurn && left < 2) {
 				left++;
 			} else {
 				break;
@@ -156,7 +169,7 @@ public class Board {
 				break;
 			} else if (board[x][y - j] == turn && down == 2) {
 				down++;
-			} else if (board[x][y - j] == notTurn) {
+			} else if (board[x][y - j] == notTurn && down < 2) {
 				down++;
 			} else {
 				break;
@@ -170,7 +183,7 @@ public class Board {
 				break;
 			} else if (board[x - j][y - j] == turn && downleft == 2) {
 				downleft++;
-			} else if (board[x + j][y - j] == notTurn) {
+			} else if (board[x + j][y - j] == notTurn && downleft < 2) {
 				downright++;
 			} else {
 				break;
@@ -184,7 +197,7 @@ public class Board {
 				break;
 			} else if (board[x + j][y - j] == turn && downright == 2) {
 				downright++;
-			} else if (board[x + j][y - j] == notTurn) {
+			} else if (board[x + j][y - j] == notTurn && downright < 2) {
 				downright++;
 			} else {
 				break;
@@ -193,8 +206,11 @@ public class Board {
 		return found;
 	}
 
-//checks to see if the piece just placed causes that player to win
+	// checks to see if the piece just placed causes that player to win
 	public boolean isWinner(char turn, int x, int y) {
+		if (!isValidMove(x, y, false)) {
+			return false;
+		}
 		int horiz = 0;
 		int vert = 0;
 		int diagUp = 0;
