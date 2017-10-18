@@ -4,11 +4,15 @@ public class Board {
 	private char[][] board;
 	int xSize;
 	int ySize;
+	int BcaptureCount;
+	int WcaptureCount;
 
 	// Initializes the board state
 	public Board(int xSize, int ySize) {
 		this.xSize = xSize;
 		this.ySize = ySize;
+		BcaptureCount = 0;
+		WcaptureCount = 0;
 		board = new char[xSize][ySize];
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
@@ -29,6 +33,8 @@ public class Board {
 
 	// resets the board to its initial state
 	public boolean resetBoard() {
+		BcaptureCount = 0;
+		WcaptureCount = 0;
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
 				board[i][j] = ' ';
@@ -64,16 +70,25 @@ public class Board {
 			return false;
 		} else if (board[x][y] == ' ' && !isBlacksSecondMove) {
 			return true;
-		} else if (isBlacksSecondMove && board[x][y] == ' ' && ((x < 7 || x > 11) || (y < 7 || y > 11))) {
+		} else if (isBlacksSecondMove && board[x][y] == ' '
+				&& ((x < (int) ((xSize / 2) + .5 - 2) || x > (int) ((xSize / 2) + .5 + 2))
+						|| (y < (int) ((ySize / 2) + .5 - 2) || y > (int) ((ySize / 2) + .5 + 2)))) {
 			return true;
 		}
 		return false;
 	}
 
-	// Deletes the two pieces that need capturing
-	private void capture(Direction direction, int x, int y) {
+	// Deletes the two pieces that need capturing and adds those to the capture
+	// count
+	private void capture(Direction direction, char notTurn, int x, int y) {
 		board[x + direction.dx][y + direction.dy] = ' ';
 		board[x + (direction.dx * 2)][y + (direction.dy * 2)] = ' ';
+		if (notTurn == 'B' || notTurn == 'b') {
+			BcaptureCount++;
+		}
+		if (notTurn == 'W' || notTurn == 'w') {
+			WcaptureCount++;
+		}
 	}
 
 	// Checks if the placed piece captures anything and calls capture to capture the
@@ -94,7 +109,7 @@ public class Board {
 		for (int j = 1; j < 4; j++) {
 			if (right == 3) {
 				found = true;
-				capture(Direction.right, x, y);
+				capture(Direction.right, notTurn, x, y);
 			} else if (x + j > 18) {
 				break;
 			} else if (board[x + j][y] == turn && right == 2) {
@@ -108,7 +123,7 @@ public class Board {
 		for (int j = 1; j < 4; j++) {
 			if (up == 3) {
 				found = true;
-				capture(Direction.up, x, y);
+				capture(Direction.up, notTurn, x, y);
 			} else if (y + j > 18) {
 				break;
 			} else if (board[x][y + j] == turn && up == 2) {
@@ -122,7 +137,7 @@ public class Board {
 		for (int j = 1; j < 4; j++) {
 			if (upright == 3) {
 				found = true;
-				capture(Direction.upright, x, y);
+				capture(Direction.upright, notTurn, x, y);
 			} else if (y + j > 18 || x + j > 18) {
 				break;
 			} else if (board[x + j][y + j] == turn && upright == 2) {
@@ -136,7 +151,7 @@ public class Board {
 		for (int j = 1; j < 4; j++) {
 			if (upleft == 3) {
 				found = true;
-				capture(Direction.upleft, x, y);
+				capture(Direction.upleft, notTurn, x, y);
 			} else if (x - j < 0 || y + j > 18) {
 				break;
 			} else if (board[x - j][y + j] == turn && upleft == 2) {
@@ -150,7 +165,7 @@ public class Board {
 		for (int j = 1; j < 4; j++) {
 			if (left == 3) {
 				found = true;
-				capture(Direction.left, x, y);
+				capture(Direction.left, notTurn, x, y);
 			} else if (x - j < 0) {
 				break;
 			} else if (board[x - j][y] == turn && left == 2) {
@@ -164,7 +179,7 @@ public class Board {
 		for (int j = 1; j < 4; j++) {
 			if (down == 3) {
 				found = true;
-				capture(Direction.down, x, y);
+				capture(Direction.down, notTurn, x, y);
 			} else if (y - j < 0) {
 				break;
 			} else if (board[x][y - j] == turn && down == 2) {
@@ -178,7 +193,7 @@ public class Board {
 		for (int j = 1; j < 4; j++) {
 			if (downleft == 3) {
 				found = true;
-				capture(Direction.downleft, x, y);
+				capture(Direction.downleft, notTurn, x, y);
 			} else if (x - j < 0 || y - j < 0) {
 				break;
 			} else if (board[x - j][y - j] == turn && downleft == 2) {
@@ -192,7 +207,7 @@ public class Board {
 		for (int j = 1; j < 4; j++) {
 			if (downright == 3) {
 				found = true;
-				capture(Direction.downright, x, y);
+				capture(Direction.downright, notTurn, x, y);
 			} else if (x + j > 18 || y - j < 0) {
 				break;
 			} else if (board[x + j][y - j] == turn && downright == 2) {
@@ -206,7 +221,8 @@ public class Board {
 		return found;
 	}
 
-	// checks to see if the piece just placed causes that player to win
+	// checks to see if the piece just placed causes that player to win by 5 in a
+	// row
 	public boolean isWinner(char turn, int x, int y) {
 		if (!isValidMove(x, y, false)) {
 			return false;
