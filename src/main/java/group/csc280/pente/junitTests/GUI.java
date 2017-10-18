@@ -1,4 +1,4 @@
-package junitTests;
+package group.csc280.pente.junitTests;
 
 import static org.junit.Assert.*;
 
