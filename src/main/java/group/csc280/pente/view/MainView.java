@@ -31,7 +31,7 @@ public class MainView extends Application {
 		primaryStage.setMaximized(true);
 		primaryStage.setResizable(false);
 		primaryStage.show();
-		b = new Board();
+		//b = new Board();
 	}
 
 	@FXML
@@ -48,7 +48,7 @@ public class MainView extends Application {
 //				b.checkCapture('B', 'W', x, y);
 //			}
 		} else {
-			Button test = (Button) e.getSource();
+			test = (Button) e.getSource();
 			x = GridPane.getColumnIndex(test);
 			y = GridPane.getRowIndex(test);
 //			if (b.makeMove('W', X, Y)) {
@@ -56,7 +56,9 @@ public class MainView extends Application {
 //				b.checkCapture('W', 'B', X, Y);
 //			}
 		}
-		times++;
+			times++;
+		}
+		
+	
 	}
-
 }
