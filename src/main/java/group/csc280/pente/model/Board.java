@@ -2,10 +2,10 @@ package group.csc280.pente.model;
 
 public class Board {
 	private char[][] board;
-	int xSize;
-	int ySize;
-	int BcaptureCount;
-	int WcaptureCount;
+	private int xSize;
+	private int ySize;
+	private int BcaptureCount;
+	private int WcaptureCount;
 
 	// Initializes the board state
 	public Board(int xSize, int ySize) {
@@ -26,7 +26,8 @@ public class Board {
 	public char[][] getBoard() {
 		return board;
 	}
-
+	
+	//sets the board to the given character array
 	public void setBoard(char[][] board) {
 		this.board = board;
 	}
@@ -53,6 +54,20 @@ public class Board {
 			System.out.println();
 		}
 		return true;
+	}
+	
+	//gets the current capture count of the given color
+	public int getCaptureCount(char fromWhom) {
+		if(fromWhom == 'W' || fromWhom == 'w') {return WcaptureCount;}
+		else if(fromWhom == 'B' || fromWhom == 'b') {return BcaptureCount;}
+		else {return 0;}
+	}
+	
+	//sets the current capture count for both players
+	public void setCaptureCount(char B, char W) {
+		this.BcaptureCount = B;
+		this.WcaptureCount = W;
+
 	}
 
 	// makes a move after validating the move
