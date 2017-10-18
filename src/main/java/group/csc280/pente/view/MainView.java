@@ -37,8 +37,8 @@ public class MainView extends Application {
 	public void buttonHandler(ActionEvent e) {
 		if (times % 2 == 0) {
 			Button test = (Button) e.getSource();
-//			int Y = GridPane.getColumnIndex(test);
-//			int X = GridPane.getRowIndex(test);
+			int Y = GridPane.getColumnIndex(test);
+			int X = GridPane.getRowIndex(test);
 //			System.out.println(X + " " + Y);
 //			if (b.makeMove('B', X, Y)) {
 				test.setStyle("-fx-background-color: #000");
@@ -46,8 +46,8 @@ public class MainView extends Application {
 //			}
 		} else {
 			Button test = (Button) e.getSource();
-//			int Y = GridPane.getColumnIndex(test);
-//			int X = GridPane.getRowIndex(test);
+			int Y = GridPane.getColumnIndex(test);
+			int X = GridPane.getRowIndex(test);
 //			if (b.makeMove('W', X, Y)) {
 				test.setStyle("-fx-background-color: #FFF");
 //				b.checkCapture('W', 'B', X, Y);
