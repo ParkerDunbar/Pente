@@ -9,7 +9,7 @@ public class Run {
 	public static void main(String[] args) {
 		Pente game = new Pente();
 		game.run();
-		
+
 
 	}
 
