@@ -27,29 +27,121 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 public class MainView extends Application {
-	private int dim = 500;
+	private int length;
+	private int width;
 	private int intersections = 39;
-	private int cellsize = dim/intersections;
+	private int cellsize = (length * width) / intersections;
 	private int times = 0;
 	private Board b;
-	private BorderPane border;
-	private HBox hbox;
+	private BorderPane startPane, gamePane;
+	private GridPane startGrid;
+	private HBox gameHbox;
 	private Canvas mycanvas;
 	private GraphicsContext gc;
-	private Button submit;
-	private Label columnLabel, rowLabel;
-	private TextField column, row;
+	private Button start, submit;
+	private Label columnLabel, rowLabel, dimLabel, insertColumn, insertRow, badinput;
+	private TextField column, row, inputColumn, inputRow;
 	private String r, c;
-	private int l1 = dim;
-	private int w1 = dim;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		mycanvas = new Canvas(l1, w1);
+		dimLabel = new Label("Please enter the desired dimensions of the board");
+		insertColumn = new Label("Column");
+		inputColumn = new TextField();
+		insertRow = new Label("Row");
+		inputRow = new TextField();
+		start = new Button("Start");
 
-		
-		CreateGrid(mycanvas, dim, dim, cellsize );
+		startGrid = new GridPane();
+		badinput = new Label();
+		startGrid.add(dimLabel, 0, 0, 2, 1);
+		startGrid.add(insertColumn, 0, 1);
+		startGrid.add(inputColumn, 1, 1);
+		startGrid.add(insertRow, 0, 2);
+		startGrid.add(inputRow, 1, 2);
+		startGrid.add(start, 0, 3);
+		startGrid.add(badinput, 1, 3);
+		startGrid.setAlignment(Pos.CENTER);
+		startPane = new BorderPane();
+		startPane.setCenter(startGrid);
+		BorderPane.setAlignment(startGrid, Pos.CENTER);
+		Scene startScreen = new Scene(startPane, 500, 250);
+		primaryStage.setScene(startScreen);
+		primaryStage.setTitle("Pente");
+		primaryStage.setResizable(false);
+		primaryStage.show();
 
+		start.setOnAction((event) -> {
+			String c = inputColumn.getText();
+			String r = inputRow.getText();
+			length = 39 ;
+			width =39;	
+			boolean goodvalue = checkNumber(c, r);
+			if (goodvalue) {
+				Scene temp = getTheGameStuff();
+				primaryStage.setScene(temp);
+				primaryStage.setMaximized(true);
+			}
+		});
+	}
+
+	private boolean checkNumber(String c2, String r2) {
+		int column, row;
+		System.out.println(c2 + r2);
+		if (c2 != null && r2 != null) {
+			System.out.println("here2");
+			char[] bufferC = c2.toCharArray();
+			char[] bufferR = r2.toCharArray();
+			for (int i = 0; i < bufferC.length; i++) {
+				if (Character.isDigit(bufferC[i])) {
+					System.out.println("here3");
+					column = Integer.parseInt(c2);
+					if (column % 2 == 1) {
+						if (column <= 39 && column >= 9) {
+							System.out.println("here4");
+							length = column;
+							return true;
+						} else {
+							badinput.setText("Both column and row need to be between 9 and 39.");
+							return false;
+						}
+
+					} else {
+						badinput.setText("Both column and row need to be an odd number.");
+						return false;
+					}
+				}
+			}
+			for (int i = 0; i < bufferR.length; i++) {
+				if (Character.isDigit(bufferR[i])) {
+					row = Integer.parseInt(r2);
+					if (row % 2 == 1) {
+						if (row <= 39 && row >= 9) {
+							width = row;
+							return true;
+						} else {
+							badinput.setText("Both column and row need to be between 9 and 39.");
+						}
+
+					} else {
+						badinput.setText("Both column and row need to be an odd number.");
+						return false;
+					}
+				}
+			}
+		} else {
+			badinput.setTextFill(Color.RED);
+			badinput.setText("Bad Input Please Try Again");
+			return false;
+		}
+		badinput.setTextFill(Color.RED);
+		badinput.setText("Bad Input Please Try Again");
+		return false;
+	}
+
+	private Scene getTheGameStuff() {
+		mycanvas = new Canvas(length, width);
+		CreateGrid(mycanvas, length, width, cellsize);
 		columnLabel = new Label("Column");
 		column = new TextField();
 		rowLabel = new Label("Row");
@@ -61,21 +153,15 @@ public class MainView extends Application {
 			c = column.getText();
 			doCalculations(r, c);
 		});
-
-		hbox = new HBox();
-		hbox.getChildren().addAll(columnLabel, column, rowLabel, row, submit);
-		hbox.setAlignment(Pos.CENTER);
-		border = new BorderPane();
-		border.setCenter(mycanvas);
-		border.setBottom(hbox);
-
-		Scene scene = new Scene(border);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Pente");
-		primaryStage.setMaximized(true);
-		primaryStage.setResizable(false);
-		primaryStage.show();
-		b = new Board(1000,1000);
+		gameHbox = new HBox();
+		gameHbox.getChildren().addAll(columnLabel, column, rowLabel, row, submit);
+		gameHbox.setAlignment(Pos.CENTER);
+		gamePane = new BorderPane();
+		gamePane.setCenter(mycanvas);
+		gamePane.setBottom(gameHbox);
+		Scene scene = new Scene(gamePane);
+		b = new Board(1000, 1000);
+		return scene;
 	}
 
 	private void doCalculations(String r2, String c2) {
@@ -86,7 +172,7 @@ public class MainView extends Application {
 			p = 'W';
 		}
 		if (b.makeMove(p, C, R, false)) {
-			drawPiece(((C-0.5)*(l1/intersections)), ((R-0.5)*(w1/intersections)));
+			drawPiece(((C - 0.5) * (length / intersections)), ((R - 0.5) * (width / intersections)));
 		}
 	}
 
@@ -94,8 +180,7 @@ public class MainView extends Application {
 		if (times % 2 == 0) {
 			gc.setFill(Color.BLACK);
 			gc.fillOval(c2, r2, cellsize, cellsize);
-		}
-		else {
+		} else {
 			gc.setFill(Color.GRAY);
 			gc.fillOval(c2, r2, cellsize, cellsize);
 		}
