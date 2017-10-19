@@ -109,9 +109,6 @@ public class Board {
 	// Checks if the placed piece captures anything and calls capture to capture the
 	// pieces
 	public boolean checkCapture(char turn, char notTurn, int x, int y) {
-		if (!isValidMove(x, y, false)) {
-			return false;
-		}
 		int right = 0;
 		int up = 0;
 		int left = 0;
@@ -239,9 +236,6 @@ public class Board {
 	// checks to see if the piece just placed causes that player to win by 5 in a
 	// row
 	public boolean isWinner(char turn, int x, int y) {
-		if (!isValidMove(x, y, false)) {
-			return false;
-		}
 		int horiz = 0;
 		int vert = 0;
 		int diagUp = 0;
