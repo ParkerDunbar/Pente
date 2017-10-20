@@ -27,10 +27,12 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 public class MainView extends Application {
+	private double cellLength;
+	private double cellWidth;
 	private int length;
 	private int width;
-	private int intersections = 39;
-	private int cellsize = (length * width) / intersections;
+	private int intersections;
+	private double cellsize;
 	private int times = 0;
 	private Board b;
 	private BorderPane startPane, gamePane;
@@ -70,14 +72,13 @@ public class MainView extends Application {
 		primaryStage.setTitle("Pente");
 		primaryStage.setResizable(false);
 		primaryStage.show();
-
 		start.setOnAction((event) -> {
 			String c = inputColumn.getText();
 			String r = inputRow.getText();
-			length = 39 ;
-			width =39;	
 			boolean goodvalue = checkNumber(c, r);
 			if (goodvalue) {
+				mycanvas = new Canvas(500, 500);
+				doCalculations(c, r, false);
 				Scene temp = getTheGameStuff();
 				primaryStage.setScene(temp);
 				primaryStage.setMaximized(true);
@@ -87,18 +88,14 @@ public class MainView extends Application {
 
 	private boolean checkNumber(String c2, String r2) {
 		int column, row;
-		System.out.println(c2 + r2);
 		if (c2 != null && r2 != null) {
-			System.out.println("here2");
 			char[] bufferC = c2.toCharArray();
 			char[] bufferR = r2.toCharArray();
 			for (int i = 0; i < bufferC.length; i++) {
 				if (Character.isDigit(bufferC[i])) {
-					System.out.println("here3");
 					column = Integer.parseInt(c2);
 					if (column % 2 == 1) {
 						if (column <= 39 && column >= 9) {
-							System.out.println("here4");
 							length = column;
 							return true;
 						} else {
@@ -140,8 +137,7 @@ public class MainView extends Application {
 	}
 
 	private Scene getTheGameStuff() {
-		mycanvas = new Canvas(length, width);
-		CreateGrid(mycanvas, length, width, cellsize);
+		mycanvas = CreateGrid(mycanvas, length, width, cellsize);
 		columnLabel = new Label("Column");
 		column = new TextField();
 		rowLabel = new Label("Row");
@@ -151,7 +147,7 @@ public class MainView extends Application {
 		submit.setOnAction((event) -> {
 			r = row.getText();
 			c = column.getText();
-			doCalculations(r, c);
+			doCalculations(r, c, true);
 		});
 		gameHbox = new HBox();
 		gameHbox.getChildren().addAll(columnLabel, column, rowLabel, row, submit);
@@ -160,51 +156,51 @@ public class MainView extends Application {
 		gamePane.setCenter(mycanvas);
 		gamePane.setBottom(gameHbox);
 		Scene scene = new Scene(gamePane);
-		b = new Board(1000, 1000);
 		return scene;
 	}
 
-	private void doCalculations(String r2, String c2) {
+	private void doCalculations(String r2, String c2, boolean piece) {
 		int R = Integer.parseInt(r2);
 		int C = Integer.parseInt(c2);
+		length = R + 1;
+		width = C + 1;
+		intersections = (length - 1) * (width - 1);
+		cellsize = (length * width) / intersections;
+		cellLength = 500 / length;
+		cellWidth = 500 / width;
+		b = new Board(R, C);
 		char p = 'B';
 		if (times % 2 == 0) {
 			p = 'W';
 		}
-		if (b.makeMove(p, C, R, false)) {
-			drawPiece(((C - 0.5) * (length / intersections)), ((R - 0.5) * (width / intersections)));
+		if (piece) {
+			drawPiece(40, 40);
 		}
 	}
 
 	private void drawPiece(double c2, double r2) {
-		if (times % 2 == 0) {
-			gc.setFill(Color.BLACK);
-			gc.fillOval(c2, r2, cellsize, cellsize);
-		} else {
-			gc.setFill(Color.GRAY);
-			gc.fillOval(c2, r2, cellsize, cellsize);
-		}
+		gc.setFill(Color.BLACK);
+		gc.fillOval(c2, r2, cellsize, cellsize);
+
 		times++;
 	}
 
-	private Canvas CreateGrid(Canvas mycanvas2, int width, int height, int cellsize) {
-		gc = mycanvas2.getGraphicsContext2D();
+	private Canvas CreateGrid(Canvas mycanvas2, int width, int length, double cellsize) {
+		Canvas can = mycanvas2;
+		gc = can.getGraphicsContext2D();
 		gc.setLineWidth(1.0);
-		for (int i = 0; i <= width; i += cellsize) {
-			double x1;
-			x1 = i;
-			gc.moveTo(x1, 0);
-			gc.lineTo(x1, height);
+		for (double i = 0; i < mycanvas.getWidth(); i += (mycanvas.getWidth() / width)) {
+			gc.moveTo(i, 0);
+			gc.lineTo(i, mycanvas.getWidth());
 			gc.stroke();
 		}
-		for (int i = 0; i <= height; i += cellsize) {
+		for (double i = 0; i < mycanvas.getHeight(); i += (mycanvas.getHeight() / length)) {
 			double y1;
 			y1 = i;
 			gc.moveTo(0, y1);
-			gc.lineTo(width, y1);
+			gc.lineTo(mycanvas.getHeight(), y1);
 			gc.stroke();
 		}
-
-		return mycanvas2;
+		return can;
 	}
 }
