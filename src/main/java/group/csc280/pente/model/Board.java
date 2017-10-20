@@ -64,7 +64,7 @@ public class Board {
 	}
 	
 	//sets the current capture count for both players
-	public void setCaptureCount(char B, char W) {
+	public void setCaptureCount(int B, int W) {
 		this.BcaptureCount = B;
 		this.WcaptureCount = W;
 

@@ -1,7 +1,6 @@
 package group.csc280.pente.controller;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -66,7 +65,7 @@ public class Pente {
 		}
 		fileR.close();
 		b.setBoard(board);
-		b.setCaptureCount(split[3].toCharArray()[0], split[4].toCharArray()[0]);
+		b.setCaptureCount(Integer.parseInt(split[3]), Integer.parseInt(split[4]));
 		return split[0].toCharArray()[0];
 	}
 
