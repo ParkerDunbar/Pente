@@ -26,6 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
+@SuppressWarnings("restriction")
 public class MainView extends Application {
 	private int length;
 	private int width;
@@ -45,44 +46,70 @@ public class MainView extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		dimLabel = new Label("Please enter the desired dimensions of the board");
-		insertColumn = new Label("Column");
-		inputColumn = new TextField();
-		insertRow = new Label("Row");
-		inputRow = new TextField();
-		start = new Button("Start");
-
-		startGrid = new GridPane();
-		badinput = new Label();
-		startGrid.add(dimLabel, 0, 0, 2, 1);
-		startGrid.add(insertColumn, 0, 1);
-		startGrid.add(inputColumn, 1, 1);
-		startGrid.add(insertRow, 0, 2);
-		startGrid.add(inputRow, 1, 2);
-		startGrid.add(start, 0, 3);
-		startGrid.add(badinput, 1, 3);
-		startGrid.setAlignment(Pos.CENTER);
-		startPane = new BorderPane();
-		startPane.setCenter(startGrid);
-		BorderPane.setAlignment(startGrid, Pos.CENTER);
-		Scene startScreen = new Scene(startPane, 500, 250);
-		primaryStage.setScene(startScreen);
-		primaryStage.setTitle("Pente");
+		mycanvas = new Canvas(length, width);
+		CreateGrid(mycanvas, length, width, cellsize);
+		columnLabel = new Label("Column");
+		column = new TextField();
+		rowLabel = new Label("Row");
+		row = new TextField();
+		submit = new Button();
+		submit.setText("Submit");
+		submit.setOnAction((event) -> {
+			r = row.getText();
+			c = column.getText();
+			doCalculations(r, c);
+		});
+		gameHbox = new HBox();
+		gameHbox.getChildren().addAll(columnLabel, column, rowLabel, row, submit);
+		gameHbox.setAlignment(Pos.CENTER);
+		gamePane = new BorderPane();
+		gamePane.setCenter(mycanvas);
+		gamePane.setBottom(gameHbox);
+		Scene scene = new Scene(gamePane);
+		b = new Board(1000, 1000);
+		primaryStage.setScene(scene);
+		primaryStage.setMaximized(true);
 		primaryStage.setResizable(false);
 		primaryStage.show();
-
-		start.setOnAction((event) -> {
-			String c = inputColumn.getText();
-			String r = inputRow.getText();
-			length = 39 ;
-			width =39;	
-			boolean goodvalue = checkNumber(c, r);
-			if (goodvalue) {
-				Scene temp = getTheGameStuff();
-				primaryStage.setScene(temp);
-				primaryStage.setMaximized(true);
-			}
-		});
+		
+//		dimLabel = new Label("Please enter the desired dimensions of the board");
+//		insertColumn = new Label("Column");
+//		inputColumn = new TextField();
+//		insertRow = new Label("Row");
+//		inputRow = new TextField();
+//		start = new Button("Start");
+//
+//		startGrid = new GridPane();
+//		badinput = new Label();
+//		startGrid.add(dimLabel, 0, 0, 2, 1);
+//		startGrid.add(insertColumn, 0, 1);
+//		startGrid.add(inputColumn, 1, 1);
+//		startGrid.add(insertRow, 0, 2);
+//		startGrid.add(inputRow, 1, 2);
+//		startGrid.add(start, 0, 3);
+//		startGrid.add(badinput, 1, 3);
+//		startGrid.setAlignment(Pos.CENTER);
+//		startPane = new BorderPane();
+//		startPane.setCenter(startGrid);
+//		BorderPane.setAlignment(startGrid, Pos.CENTER);
+//		Scene startScreen = new Scene(startPane, 500, 250);
+//		primaryStage.setScene(startScreen);
+//		primaryStage.setTitle("Pente");
+//		primaryStage.setResizable(false);
+//		primaryStage.show();
+//
+//		start.setOnAction((event) -> {
+//			String c = inputColumn.getText();
+//			String r = inputRow.getText();
+//			length = 39 ;
+//			width =39;	
+//			boolean goodvalue = checkNumber(c, r);
+//			if (goodvalue) {
+//				Scene temp = getTheGameStuff();
+//				primaryStage.setScene(temp);
+//				primaryStage.setMaximized(true);
+//			}
+//		});
 	}
 
 	private boolean checkNumber(String c2, String r2) {
