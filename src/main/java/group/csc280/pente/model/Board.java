@@ -323,4 +323,14 @@ public class Board {
 		}
 		return false;
 	}
+	
+	//checks the board for empty spaces, if none, returns true
+	public boolean checkForTie() {
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				if(board[i][j]==' ') {return false;}
+			}
+		}
+		return true;
+	}
 }
