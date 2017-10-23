@@ -118,7 +118,7 @@ public class Board {
 		int downright = 0;
 		int downleft = 0;
 		boolean found = false;
-		for (int j = 1; j < 4; j++) {
+		for (int j = 1; j < 5; j++) {
 			if (right == 3) {
 				found = true;
 				capture(Direction.right, notTurn, x, y);
@@ -132,7 +132,7 @@ public class Board {
 				break;
 			}
 		}
-		for (int j = 1; j < 4; j++) {
+		for (int j = 1; j < 5; j++) {
 			if (up == 3) {
 				found = true;
 				capture(Direction.up, notTurn, x, y);
@@ -146,7 +146,7 @@ public class Board {
 				break;
 			}
 		}
-		for (int j = 1; j < 4; j++) {
+		for (int j = 1; j < 5; j++) {
 			if (upright == 3) {
 				found = true;
 				capture(Direction.upright, notTurn, x, y);
@@ -160,7 +160,7 @@ public class Board {
 				break;
 			}
 		}
-		for (int j = 1; j < 4; j++) {
+		for (int j = 1; j < 5; j++) {
 			if (upleft == 3) {
 				found = true;
 				capture(Direction.upleft, notTurn, x, y);
@@ -174,7 +174,7 @@ public class Board {
 				break;
 			}
 		}
-		for (int j = 1; j < 4; j++) {
+		for (int j = 1; j < 5; j++) {
 			if (left == 3) {
 				found = true;
 				capture(Direction.left, notTurn, x, y);
@@ -188,7 +188,7 @@ public class Board {
 				break;
 			}
 		}
-		for (int j = 1; j < 4; j++) {
+		for (int j = 1; j < 5; j++) {
 			if (down == 3) {
 				found = true;
 				capture(Direction.down, notTurn, x, y);
@@ -202,7 +202,7 @@ public class Board {
 				break;
 			}
 		}
-		for (int j = 1; j < 4; j++) {
+		for (int j = 1; j < 5; j++) {
 			if (downleft == 3) {
 				found = true;
 				capture(Direction.downleft, notTurn, x, y);
@@ -210,13 +210,13 @@ public class Board {
 				break;
 			} else if (board[x - j][y - j] == turn && downleft == 2) {
 				downleft++;
-			} else if (board[x + j][y - j] == notTurn && downleft < 2) {
-				downright++;
+			} else if (board[x - j][y - j] == notTurn && downleft < 2) {
+				downleft++;
 			} else {
 				break;
 			}
 		}
-		for (int j = 1; j < 4; j++) {
+		for (int j = 1; j < 5; j++) {
 			if (downright == 3) {
 				found = true;
 				capture(Direction.downright, notTurn, x, y);
@@ -277,7 +277,7 @@ public class Board {
 				break;
 			}
 		}
-		for (int j = 1; j < 5; j++) {
+		for (int j = 1; j < 6; j++) {
 			if (horiz == 4) {
 				return true;
 			} else if (x - j < 0) {
@@ -288,7 +288,7 @@ public class Board {
 				break;
 			}
 		}
-		for (int j = 1; j < 5; j++) {
+		for (int j = 1; j < 6; j++) {
 			if (vert == 4) {
 				return true;
 			} else if (y - j < 0) {
@@ -299,7 +299,7 @@ public class Board {
 				break;
 			}
 		}
-		for (int j = 1; j < 5; j++) {
+		for (int j = 1; j < 6; j++) {
 			if (diagUp == 4) {
 				return true;
 			} else if (x - j < 0 || y - j < 0) {
@@ -310,7 +310,7 @@ public class Board {
 				break;
 			}
 		}
-		for (int j = 1; j < 5; j++) {
+		for (int j = 1; j < 6; j++) {
 			if (diagDown == 4) {
 				return true;
 			} else if (x + j > 18 || y - j < 0) {

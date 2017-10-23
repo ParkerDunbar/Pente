@@ -2,5 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>group.csc280.pente</groupId>
   <artifactId>pente</artifactId>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.1</version>
+      <scope>test</scope>
+    </dependency>
+</dependencies>
   <version>0.0.1-SNAPSHOT</version>
 </project>

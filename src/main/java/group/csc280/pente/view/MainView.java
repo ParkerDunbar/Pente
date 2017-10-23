@@ -59,7 +59,7 @@ public class MainView extends Application {
 		submit.setOnAction((event) -> {
 			r = row.getText();
 			c = column.getText();
-			doCalculations(r, c);
+			doCalculations(r, c, false);
 		});
 		gameHbox = new HBox();
 		gameHbox.getChildren().addAll(columnLabel, column, rowLabel, row, submit);
